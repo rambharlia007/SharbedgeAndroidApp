@@ -1,0 +1,22 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+$checkbox-md-icon-background-color-on: #fff;
+$checkbox-md-icon-border-color-on: #00ff00;
+$checkbox-md-icon-border-color-off: #cecece;
+$checkbox-md-icon-checkmark-color: #ff0000;
+$checkbox-md-icon-checkmark-width: 2px;
+$checkbox-md-icon-size: 40px;
+$checkbox-md-icon-border-radius: 0%;
+$checkbox-md-icon-border-width: 1px;

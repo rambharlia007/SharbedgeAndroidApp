@@ -1,0 +1,45 @@
+<!--
+  Generated template for the AccaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title>Favourite Fixtures</ion-title>
+    </ion-navbar>
+    <ion-grid style="padding-bottom: 0px; padding-top: 2px; background-color: #eee">
+        <ion-row class="border-bottom" style="font-size: 0.6em">
+            <ion-col col-2>Event</ion-col>
+            <ion-col col-2>When</ion-col>
+            <ion-col col-2>Bet</ion-col>
+            <ion-col col-2>Coupon</ion-col>
+            <ion-col col-1>B/L</ion-col>
+            <ion-col col-1>5%</ion-col>
+            <ion-col col-1>LC</ion-col>
+            <ion-col col-1>Arb</ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-header>
+
+
+<ion-content>
+    <ion-grid [ngClass]="paddingTop">
+        <ion-row class=" border-bottom " style="font-size: 0.6em;" *ngFor="let data of fixtures ">
+            <ion-col col-2 style="color: #158cba ">
+                {{data.Event}}
+            </ion-col>
+            <ion-col col-2>{{data.When}}</ion-col>
+            <ion-col col-2 style="color: #158cba ">{{data.MarketDisplayName}}</ion-col>
+            <ion-col col-2>{{data.Coupon}}</ion-col>
+            <ion-col col-1>
+                <div class="colorBlue">{{data.BackOdds}}</div>
+                <div class="colorPink">{{data.LayOdds}}</div>
+            </ion-col>
+            <ion-col col-1>{{data.FivePercent}}</ion-col>
+            <ion-col col-1>{{data.LC}}</ion-col>
+            <ion-col col-1 class="{{data.Color}}">{{data.Arb}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

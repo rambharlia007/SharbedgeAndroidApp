@@ -1,0 +1,143 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title>{{pageTitle}}
+            <div style="font-size: 0.6em; font:small-caption">{{updatedAt}}</div>
+        </ion-title>
+        <ion-buttons end (click)="clearFilterSettings()">
+            <button ion-button icon-only>
+        <ion-icon name="backspace"></ion-icon>
+      </button>
+        </ion-buttons>
+        <ion-buttons end (click)="showSearchBar()">
+            <button ion-button icon-only>
+        <ion-icon name="funnel"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+
+
+    <ion-item-group *ngIf="headerFooterVisible">
+        <ion-item-divider color="light">Filter Settings</ion-item-divider>
+        <ion-item>
+            <ion-label>Search</ion-label>
+            <ion-input placeholder="Search by Event, Bet, Coupon" [(ngModel)]="searchValue"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Over</ion-label>
+            <ion-input placeholder="2.5" [(ngModel)]="backOddsOverValue"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Under</ion-label>
+            <ion-input placeholder="4.3" [(ngModel)]="backOddsUnderValue"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Sort By</ion-label>
+            <ion-select [(ngModel)]="sortBy1">
+                <ion-option value="EventDateTime ASC">When (Newest)</ion-option>
+                <ion-option value="EventDateTime DESC">When (Oldest)</ion-option>
+                <ion-option value="FivePercent DESC">5% (High to Low)</ion-option>
+                <ion-option value="FivePercent ASC">5% (Low to High)</ion-option>
+                <ion-option value="LC DESC">LC (High to Low)</ion-option>
+                <ion-option value="LC ASC">LC (Low to High)</ion-option>
+                <ion-option value="ARB DESC">Arb (High to Low)</ion-option>
+                <ion-option value="ARB ASC">Arb (Low to High)</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>Sort By</ion-label>
+            <ion-select [(ngModel)]="sortBy2">
+                <ion-option value="EventDateTime ASC">When (Newest)</ion-option>
+                <ion-option value="EventDateTime DESC">When (Oldest)</ion-option>
+                <ion-option value="FivePercent DESC">5% (High to Low)</ion-option>
+                <ion-option value="FivePercent ASC">5% (Low to High)</ion-option>
+                <ion-option value="LC DESC">LC (High to Low)</ion-option>
+                <ion-option value="LC ASC">LC (Low to High)</ion-option>
+                <ion-option value="ARB DESC">Arb (High to Low)</ion-option>
+                <ion-option value="ARB ASC">Arb (Low to High)</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <button class="filter-button" (click)="closeFilterSettings()" ion-button outline>Cancel</button>
+            <button class="filter-button" (click)="getFixtures()" ion-button outline>Submit</button>
+        </ion-item>
+    </ion-item-group>
+
+    <ion-grid style="padding-bottom: 0px; padding-top: 2px; background-color: #eee">
+        <ion-row class="border-bottom" style="font-size: 0.6em">
+            <ion-col class="col-1"></ion-col>
+            <ion-col class="col-2">Event</ion-col>
+            <ion-col class="col-2">When</ion-col>
+            <ion-col class="col-2">Bet</ion-col>
+            <ion-col class="col-2">Coupon</ion-col>
+            <ion-col class="col-1">B/L</ion-col>
+            <ion-col class="col-1">5%</ion-col>
+            <ion-col class="col-1">LC</ion-col>
+            <ion-col class="col-1">Arb</ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row class=" border-bottom" style="font-size: 0.6em;" *ngFor="let data of fixtures">
+            <ion-col class="col-1">
+                <ion-checkbox [(ngModel)]="data.IsSelected" (click)="AddAccaList(data)">
+                </ion-checkbox>
+            </ion-col>
+            <ion-col class="col-2" style="color: #158cba; text-decoration: underline" (click)="UpdateOdds(data)">
+                {{data.Event}}
+            </ion-col>
+            <ion-col class="col-2">{{data.When}}</ion-col>
+            <ion-col class="col-2" style="text-decoration: underline;color: #158cba " (click)="betFairLink(data)">{{data.MarketDisplayName}}</ion-col>
+            <ion-col class="col-2" (click)="selectRow(data)" style="color:#158cba;">
+                {{data.Coupon}}
+            </ion-col>
+            <ion-col class="col-1">
+                <div class="colorBlue">{{data.BackOdds}}</div>
+                <div class="colorPink">{{data.LayOdds}}</div>
+            </ion-col>
+            <ion-col class="col-1">{{data.FivePercent}}</ion-col>
+            <ion-col class="col-1">{{data.LC}}</ion-col>
+            <ion-col class="col-1 {{data.Color}}">{{data.Arb}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ng-container>
+    <ion-footer style="background-color: #eee">
+        <ion-row style="height: 30px;padding-left: 2%; font-size: 0.7em;">
+            <ion-col class="col-summary-1">
+                {{(counter-1) * pageLimit + 1}} to {{counter * pageLimit > totalRecords ? totalRecords : counter * pageLimit }} of {{totalRecords}} entries {{totalSummaryText}}
+            </ion-col>
+            <ion-col class="col-summary-2">
+                <button class="button-small" [disabled]="accaFixtures.length == 0" (click)="clearAccaPage()" color="secondary" ion-button outline item-end icon-left>
+                      Clear
+                  </button>
+                <button class="button-small" [disabled]="accaFixtures.length == 0" (click)="goToAccaPage()" color="secondary" ion-button outline item-end icon-left>
+      Create ACCA
+      <span style="padding-left: 5% !important;">
+           <ion-badge class="ion-badge-custom" color="secondary">{{accaFixtures.length}}</ion-badge>
+      </span>
+    </button>
+            </ion-col>
+        </ion-row>
+
+        <ion-segment [(ngModel)]="pageIndex" color="secondary" style="padding-top: 5px;padding-bottom: 5px;padding-left: 10px;padding-right: 10px;">
+            <ion-segment-button style="font-size: 0.7em; " [disabled]="isPreviousDisabled " (click)="goToPrevious( 'Previous') " value="Previous">
+                Previous
+            </ion-segment-button>
+
+            <ng-container *ngFor="let page of pagination ">
+                <ion-segment-button *ngIf="page.isVisible " (click)="goToPage(page.id) " value={{page.id}}>
+                    {{page.id}}
+                </ion-segment-button>
+            </ng-container>
+            <ion-segment-button style="font-size: 0.7em; " [disabled]="isNextDisabled " (click)="goToNext('Next') " value="Next ">
+                Next
+            </ion-segment-button>
+        </ion-segment>
+    </ion-footer>
+</ng-container>

@@ -1,0 +1,207 @@
+<!--
+  Generated template for the AccaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title>Odds update</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-header style="background-color: #eee; padding: 0px;">
+            <ion-row style="font-size: 0.6em;">
+                <ion-col col-2>Select</ion-col>
+                <ion-col col-3>Updated By</ion-col>
+                <ion-col col-3>Updated At</ion-col>
+                <ion-col col-2>Old Odds</ion-col>
+                <ion-col col-2>New Odds</ion-col>
+            </ion-row>
+        </ion-card-header>
+        <ion-card-content style="padding: 0px;">
+            <ion-grid radio-group [(ngModel)]="isRowSelected" style="padding: 0px;">
+                <ng-container *ngIf="oddsUpdateData.length > 0">
+                    <ion-row class="border-bottom" style="font-size: 0.6em; color:rgb(71, 180, 117)" *ngIf="showMessage">
+                        {{message}}
+                    </ion-row>
+                    <div style="max-height: 200px; overflow-y: scroll;">
+                        <ion-row class="border-bottom" style="font-size: 0.6em;" *ngFor="let data of oddsUpdateData">
+                            <ion-col col-2>
+                                <ion-radio style="width: 100%" value={{data.Id}}></ion-radio>
+                            </ion-col>
+                            <ion-col col-3>{{data.UserName}}</ion-col>
+                            <ion-col col-3>{{data.UpdatedAt}}</ion-col>
+                            <ion-col col-2>{{data.BackOddsFraOld}} ({{data.BackOddsOld}})</ion-col>
+                            <ion-col col-2>{{data.BackOddsFraNew}} ({{data.BackOddsNew}})</ion-col>
+                        </ion-row>
+                    </div>
+                </ng-container>
+                <ion-row style="background-color: #eee;">
+                    <ion-col col-6 style="font-size: 0.9em; padding-top: 15px;">Confirm / Update Odds</ion-col>
+                    <ion-col col-3>
+                        <ion-select [(ngModel)]="OddsValue" style="max-width: 100%; padding-left: 0px; font-size: 0.7em;">
+                            <ion-option value="1/10">1/10 (1.10) </ion-option>
+                            <ion-option value="1/9"> 1/9 (1.12) </ion-option>
+                            <ion-option value="1/8"> 1/8 (1.13) </ion-option>
+                            <ion-option value="1/7"> 1/7 (1.15) </ion-option>
+                            <ion-option value="1/6"> 1/6 (1.17) </ion-option>
+                            <ion-option value="2/11">2/11(1.18) </ion-option>
+                            <ion-option value="1/5"> 1/5 (1.20) </ion-option>
+                            <ion-option value="2/9"> 2/9 (1.22) </ion-option>
+                            <ion-option value="1/4"> 1/4 (1.25) </ion-option>
+                            <ion-option value="2/7"> 2/7 (1.28) </ion-option>
+                            <ion-option value="3/10"> 3/10(1.30) </ion-option>
+                            <ion-option value="1/3"> 1/3 (1.33) </ion-option>
+                            <ion-option value="7/20">7/20(1.35) </ion-option>
+                            <ion-option value="4/11">4/11(1.36) </ion-option>
+                            <ion-option value="2/5"> 2/5 (1.40) </ion-option>
+                            <ion-option value="4/9"> 4/9 (1.44) </ion-option>
+                            <ion-option value="9/20">9/20(1.45) </ion-option>
+                            <ion-option value="40/85">40/85(1.47) </ion-option>
+                            <ion-option value="1/2">1/2 (1.50) </ion-option>
+                            <ion-option value="8/15">8/15(1.53) </ion-option>
+                            <ion-option value="4/7"> 4/7 (1.57) </ion-option>
+                            <ion-option value="3/5"> 3/5 (1.60) </ion-option>
+                            <ion-option value="8/13">8/13(1.62) </ion-option>
+                            <ion-option value="5/8"> 5/8 (1.63) </ion-option>
+                            <ion-option value="4/6"> 4/6 (1.66) </ion-option>
+                            <ion-option value="7/10">7/10(1.70) </ion-option>
+                            <ion-option value="8/11">8/11(1.72) </ion-option>
+                            <ion-option value="4/5"> 4/5 (1.80) </ion-option>
+                            <ion-option value="5/6"> 5/6 (1.83) </ion-option>
+                            <ion-option value="17/20">17/20(1.85) </ion-option>
+                            <ion-option value="9/10">9/10(1.90) </ion-option>
+                            <ion-option value="10/11">10/11(1.91) </ion-option>
+                            <ion-option value="20/21">20/21(1.95) </ion-option>
+                            <ion-option value="1/1"> 1/1 (2.00) </ion-option>
+                            <ion-option value="21/20">21/20(2.05) </ion-option>
+                            <ion-option value="11/10">11/10(2.10) </ion-option>
+                            <ion-option value="23/20">23/20(2.15) </ion-option>
+                            <ion-option value="6/5"> 6/5 (2.20) </ion-option>
+                            <ion-option value="5/4"> 5/4 (2.25) </ion-option>
+                            <ion-option value="13/10">13/10(2.30) </ion-option>
+                            <ion-option value="11/8">11/8(2.38) </ion-option>
+                            <ion-option value="7/5"> 7/5 (2.40) </ion-option>
+                            <ion-option value="6/4"> 6/4 (2.50) </ion-option>
+                            <ion-option value="8/5"> 8/5 (2.60) </ion-option>
+                            <ion-option value="13/8">13/8(2.63) </ion-option>
+                            <ion-option value="17/10">17/10(2.70) </ion-option>
+                            <ion-option value="7/4"> 7/4 (2.75) </ion-option>
+                            <ion-option value="9/5"> 9/5 (2.80) </ion-option>
+                            <ion-option value="15/8">15/8(2.88) </ion-option>
+                            <ion-option value="19/10">19/10(2.90) </ion-option>
+                            <ion-option value="2/1"> 2/1 (3.00) </ion-option>
+                            <ion-option value="21/10">21/10(3.10) </ion-option>
+                            <ion-option value="85/40">85/40(3.13) </ion-option>
+                            <ion-option value="11/5">11/5(3.20) </ion-option>
+                            <ion-option value="9/4"> 9/4 (3.25) </ion-option>
+                            <ion-option value="23/10">23/10(3.30) </ion-option>
+                            <ion-option value="95/40">95/40(2.38) </ion-option>
+                            <ion-option value="12/5">12/5(3.40) </ion-option>
+                            <ion-option value="5/2"> 5/2 (3.50) </ion-option>
+                            <ion-option value="13/5">13/5(3.60) </ion-option>
+                            <ion-option value="11/4">11/4(3.75) </ion-option>
+                            <ion-option value="14/5">14/5(3.80) </ion-option>
+                            <ion-option value="3/1"> 3/1 (4.00) </ion-option>
+                            <ion-option value="31/10">31/10(4.10) </ion-option>
+                            <ion-option value="16/5">16/5(4.20) </ion-option>
+                            <ion-option value="10/3">10/3(4.33) </ion-option>
+                            <ion-option value="7/2"> 7/2 (4.50) </ion-option>
+                            <ion-option value="18/5">18/5(4.60) </ion-option>
+                            <ion-option value="15/4">15/4(4.75) </ion-option>
+                            <ion-option value="19/5">19/5(4.80) </ion-option>
+                            <ion-option value="4/1"> 4/1 (5.00) </ion-option>
+                            <ion-option value="9/2"> 9/2 (5.50) </ion-option>
+                            <ion-option value="5/1"> 5/1 (6.00) </ion-option>
+                            <ion-option value="11/2">11/2(6.50) </ion-option>
+                            <ion-option value="6/1"> 6/1 (7.00) </ion-option>
+                            <ion-option value="13/2">13/2(7.50) </ion-option>
+                            <ion-option value="7/1"> 7/1 (8.00) </ion-option>
+                            <ion-option value="15/2">15/2(8.50) </ion-option>
+                            <ion-option value="8/1"> 8/1 (9.00) </ion-option>
+                            <ion-option value="17/2">17/2(9.50) </ion-option>
+                            <ion-option value="9/1"> 9/1 (10.00) </ion-option>
+                            <ion-option value="10/1">10/1(11.00) </ion-option>
+                            <ion-option value="11/1">11/1(12.00) </ion-option>
+                            <ion-option value="12/1">12/1(13.00) </ion-option>
+                            <ion-option value="13/1">13/1(14.00) </ion-option>
+                            <ion-option value="14/1">14/1(15.00) </ion-option>
+                            <ion-option value="15/1">15/1(16.00) </ion-option>
+                            <ion-option value="16/1">16/1(17.00) </ion-option>
+                            <ion-option value="18/1">18/1(19.00) </ion-option>
+                            <ion-option value="20/1">20/1(21.00) </ion-option>
+                            <ion-option value="25/1">25/1(26.00) </ion-option>
+                            <ion-option value="28/1">28/1(29.00) </ion-option>
+                            <ion-option value="33/1">33/1(34.00) </ion-option>
+                            <ion-option value="35/1">35/1(36.00) </ion-option>
+                            <ion-option value="40/1">40/1(41.00) </ion-option>
+                            <ion-option value="50/1">50/1(51.00) </ion-option>
+                            <ion-option value="66/1">66/1(67.00) </ion-option>
+                            <ion-option value="80/1">80/1(81.00) </ion-option>
+                            <ion-option value="100/1">100/1(101.00) </ion-option>
+                        </ion-select>
+                    </ion-col>
+                    <ion-col col-3>
+                        <button style="font-size: 0.9em; height: 2.2em;" small ion-button color="secondary" (click)="UpdateOddsCut()">Submit</button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header style="background-color: #eee;">
+            Calculator
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-list-header style="min-height: 2em; max-height: 2.5em;margin-bottom: 0px;border-top: none;">
+                    Input
+                </ion-list-header>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Commision</ion-label>
+                    <ion-input type="number" min="1" [ngModel]="commission" (ngModelChange)="compute($event,'commission')" placeholder="5">
+                        {{commission}}
+                    </ion-input>
+                </ion-item>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Back Stake</ion-label>
+                    <ion-input type="number" min="1" placeholder="100" [ngModel]="backStake" (ngModelChange)="compute($event,'backStake')">
+                        {{backStake}}
+                    </ion-input>
+                </ion-item>
+                <ion-list-header style="min-height: 2em; max-height: 2.5em;margin-bottom: 0px;border-top: none;">
+                    Output
+                </ion-list-header>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Back Odds</ion-label>
+                    <div item-content>
+                        <span style="color: #2098d1"> {{fixtureData.BackOdds}}</span>
+                        <span>    {{fixtureData.BackOddsFra}}</span>
+                    </div>
+                </ion-item>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Lay Odds</ion-label>
+                    <div item-content>
+                        <span style="color: #ef7dd5">{{fixtureData.LayOdds}}</span>
+                        <span> {{fixtureData.Size}}</span>
+                    </div>
+                </ion-item>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Lay Stake</ion-label>
+                    <div item-content>
+                        {{layStack}}
+                    </div>
+                </ion-item>
+                <ion-item style="min-height: 0.1em; max-height: 2.5em;font-size: 0.8em;">
+                    <ion-label color="primary">Profit</ion-label>
+                    <div item-content>
+                        {{profit}}
+                    </div>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

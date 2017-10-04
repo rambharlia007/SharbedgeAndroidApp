@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Login</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="content content-ios statusbar-padding">
+
+    <ion-list>
+
+        <ion-item>
+            <ion-input type="text" placeholder="Username" #userName></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="password" placeholder="Password" #password></ion-input>
+        </ion-item>
+
+    </ion-list>
+
+    <div padding="" style="padding-top: 0px; padding-bottom: 5px;">
+        <button block="" color="primary" (click)="SignIn(userName.value,password.value)" [disabled]="(userName.value === '' || password.value === '')" ion-button="" class=""><span class="button-inner">Sign In</span><div class="button-effect"></div></button>
+    </div>
+
+    <div style="color:#488aff;padding-left:18px;" (click)="Register()">
+        New to Sharbedge? Register now
+    </div>
+
+</ion-content>
