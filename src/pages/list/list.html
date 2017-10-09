@@ -23,7 +23,7 @@
         <ion-item-divider color="light">Filter Settings</ion-item-divider>
         <ion-item>
             <ion-label>Search</ion-label>
-            <ion-input placeholder="Search by Event, Bet, Coupon" [(ngModel)]="searchValue"></ion-input>
+            <ion-input placeholder="by Event, Bet, Coupon" [(ngModel)]="searchValue"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>Over</ion-label>
@@ -103,6 +103,9 @@
             <ion-col class="col-1">{{data.LC}}</ion-col>
             <ion-col class="col-1 {{data.Color}}">{{data.Arb}}
             </ion-col>
+        </ion-row>
+        <ion-row style="padding:10%;" *ngIf="!IsServerDataAvailable">
+            {{gridErrorMessage}}
         </ion-row>
     </ion-grid>
 </ion-content>

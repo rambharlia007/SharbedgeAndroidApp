@@ -31,12 +31,10 @@ export class OddsCutPage {
     this.OddsValue = "1/10";
     this.isRowSelected;
     this.GetFixturesActivityLog();
-    this.compute("5", "commission");
+    this.compute(this.commission, "commission");
     this.storage.get('commission').then((val) => {
       this.commission = parseInt(val)
     });
-    if (this.commission == 0)
-      this.commission = 5;
   }
 
   ionViewDidLoad() {

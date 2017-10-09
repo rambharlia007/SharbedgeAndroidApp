@@ -35,7 +35,10 @@ export class ListPage {
   sharbTypeId;
   updatedAt: string;
   pageTitle: string;
-  isNoDataAvailable: boolean = false;
+  baseUrl: string = "http://www.sharbedge.co.uk/";
+  testBaseUrl: string = "http://localhost:6788/";
+  IsServerDataAvailable: boolean;
+  gridErrorMessage: string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http,
     public alertCtrl: AlertController, private _zone: NgZone, public loadingCtrl: LoadingController, private storage: Storage, private iab: InAppBrowser) {
     // If we navigated to this page, we will have an item available as a nav param
@@ -71,10 +74,16 @@ export class ListPage {
     this.searchValue = "";
   }
 
+  commissionValue: string = "";
   subscription
   ngOnInit() {
+    this.IsServerDataAvailable = true;
     this.counter = 1;
-    this.getFixtures();
+    this.storage.get('commission').then(val => {
+      this.commissionValue = val;
+      this.getFixtures();
+    });
+
     let timer = Observable.timer(30000, 30000);
     this.subscription = timer.subscribe(t => {
       if (this.navCtrl.getActive().name == "ListPage" && !this.headerFooterVisible) {
@@ -92,14 +101,14 @@ export class ListPage {
 
 
   updateFixtures() {
-    this.isNoDataAvailable = true;
+    this.IsServerDataAvailable = true;
     var headers = new Headers();
     this.storage.get('Accesskey').then(val => {
       headers.append('Authorization', 'Bearer ' + val);
       var options = new RequestOptions({ headers: headers });
-      var queryParams = "?param1=" + this.searchValue + "&param2=" + this.backOddsOverValue + "&param3=" + this.backOddsUnderValue + "&param4=" + this.sortBy1
+      var queryParams = "?param=" + this.commissionValue + "&param1=" + this.searchValue + "&param2=" + this.backOddsOverValue + "&param3=" + this.backOddsUnderValue + "&param4=" + this.sortBy1
         + "&param5=" + this.sortBy2 + "&param6=" + this.counter;
-      this.http.get("http://www.sharbedge.co.uk/api/Values/GetFixturesByQuery/" + this.sharbTypeId + queryParams, options).map(data => data.json())
+      this.http.get(this.baseUrl + "api/Values/GetFixturesByQuery/" + this.sharbTypeId + queryParams, options).map(data => data.json())
         .subscribe(data => {
           this.fixtures = [];
           if (data.Data.result.length > 0) {
@@ -110,10 +119,13 @@ export class ListPage {
             });
             this.totalRecords = this.fixtures[0].TotalRecords;
             this.ProcessPageIndex();
-          } else
-            this.isNoDataAvailable = true;
+          } else {
+            this.gridErrorMessage = "No data available.";
+            this.IsServerDataAvailable = false;
+          }
         },
         err => {
+
           if (err.status == 401) {
             var response = JSON.parse(err.json());
             this.loader.dismiss();
@@ -128,6 +140,8 @@ export class ListPage {
               this.navCtrl.setRoot(SubscribePage);
             }
           } else {
+            this.gridErrorMessage = "Oops something went wrong. Please check your internet connection and try again.";
+            this.IsServerDataAvailable = false;
           }
         });
     })
@@ -209,16 +223,16 @@ export class ListPage {
   // { headers: this.headers}
   // http://www.sharbedge.co.uk/api/Values/
   getFixtures(IsPaginationData: boolean = false) {
-    this.isNoDataAvailable = true;
+    this.IsServerDataAvailable = true;
     this.fixtures = [];
     this.presentLoading();
     var headers = new Headers();
     this.storage.get('Accesskey').then((val) => {
       headers.append('Authorization', 'Bearer ' + val);
       var options = new RequestOptions({ headers: headers }); //data.Data.result
-      var queryParams = "?param1=" + this.searchValue + "&param2=" + this.backOddsOverValue + "&param3=" + this.backOddsUnderValue + "&param4=" + this.sortBy1
+      var queryParams = "?param=" + this.commissionValue + "&param1=" + this.searchValue + "&param2=" + this.backOddsOverValue + "&param3=" + this.backOddsUnderValue + "&param4=" + this.sortBy1
         + "&param5=" + this.sortBy2 + "&param6=" + this.counter;
-      this.http.get("http://www.sharbedge.co.uk/api/Values/GetFixturesByQuery/" + this.sharbTypeId + queryParams, options).map(res => res.json())
+      this.http.get(this.baseUrl + "api/Values/GetFixturesByQuery/" + this.sharbTypeId + queryParams, options).map(res => res.json())
         .subscribe(data => {
           if (data.Data.result.length > 0) {
             data.Data.result.forEach((element, index) => {
@@ -231,8 +245,10 @@ export class ListPage {
               this.ProcessPageIndex();
             else
               this.processPagination(this.fixtures);
-          } else
-            this.isNoDataAvailable = true;
+          } else {
+            this.gridErrorMessage = "No data available.";
+            this.IsServerDataAvailable = false;
+          }
           this.headerFooterVisible = false;
           this.loader.dismiss();
           this.setLastUpdatedTime();
@@ -253,6 +269,8 @@ export class ListPage {
             }
           }
           else {
+            this.gridErrorMessage = "Oops something went wrong. Please check your internet connection and try again.";
+            this.IsServerDataAvailable = false;
             this.loader.dismiss();
           }
         });

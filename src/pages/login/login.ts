@@ -25,6 +25,10 @@ export class Login {
   accessToken: string;
   errorMessage: string;
   loader;
+  //http://localhost:6788/
+  //http://www.sharbedge.co.uk/
+  baseUrl: string = "http://www.sharbedge.co.uk/";
+  testBaseUrl:string = "http://localhost:6788/";
   private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public loadingCtrl: LoadingController,
     public alertCtrl: AlertController, private storage: Storage, private iab: InAppBrowser) {
@@ -38,12 +42,18 @@ export class Login {
   SignIn(userName: string, password: string) {
     this.presentLoading();
     var params = "grant_type=password&username=" + userName + "&password=" + password;
-    var response = this.http.post("http://www.sharbedge.co.uk/Token", params, { headers: this.headers })
+    var response = this.http.post(this.baseUrl + "Token", params, { headers: this.headers })
       .map(res => res.json()).subscribe(data => {
         this.accessToken = data.access_token;
+        var commissionPercentage = data.commission_percentage;
+        var isEmailAlert = data.is_emailAlert;
+        var emailAlertId = data.email_alert_id;
         if (this.accessToken != null) {
           this.storage.set('Accesskey', this.accessToken);
           this.storage.set('isLoggedIn', "true");
+          this.storage.set('commission', commissionPercentage);
+          this.storage.set('isEmailAlert', isEmailAlert);
+          this.storage.set('emailAlertId', emailAlertId);
           this.navCtrl.setRoot(HomePage);
         } else {
           this.loader.dismiss()
@@ -62,9 +72,9 @@ export class Login {
     const browser = this.iab.create(urlValue, "_blank", "location=yes");
   }
 
- 
 
-  Register(){
+
+  Register() {
     const browser = this.iab.create("https://www.sharbedge.com/Account/Register", "_blank", "location=yes");
   }
 
